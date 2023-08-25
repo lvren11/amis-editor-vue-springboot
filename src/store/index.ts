@@ -1,21 +1,50 @@
 import {types, getEnv, applySnapshot, getSnapshot} from 'mobx-state-tree';
 import {PageStore} from './Page';
 import {reaction} from 'mobx';
+import {schema_example} from './example';
+import {schema_back} from './back';
+import { schema_active } from './active';
+import { schema_table } from './table';
+import { schema_code } from './tabletocode';
 
 let pagIndex = 1;
 export const MainStore = types
   .model('MainStore', {
     pages: types.optional(types.array(PageStore), [
       {
+        id: `100`,
+        path: 'background',
+        label: '数据源',
+        icon: 'fas fa-cloud',
+        schema: schema_back
+      },
+      {
+        id: `101`,
+        path: 'backgroundactive',
+        label: '数据源切换',
+        icon: 'fas fa-random',
+        schema: schema_active
+      },
+      {
+        id: `102`,
+        path: 'backgroundtable',
+        label: '数据源表格',
+        icon: 'fa fa-stack-overflow',
+        schema: schema_table
+      },
+      {
+        id: `103`,
+        path: 'backgroundcode',
+        label: 'JAVA导出',
+        icon: 'fa fa-spotify',
+        schema: schema_code
+      },
+      {
         id: `${pagIndex}`,
         path: 'hello-world',
-        label: 'Hello world',
+        label: '示例',
         icon: 'fa fa-file',
-        schema: {
-          type: 'page',
-          title: 'Hello world',
-          body: '初始页面'
-        }
+        schema: schema_example
       }
     ]),
     theme: 'cxd',

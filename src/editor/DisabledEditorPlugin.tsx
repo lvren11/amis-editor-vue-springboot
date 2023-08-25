@@ -83,8 +83,9 @@ export class ManagerEditorPlugin extends BasePlugin {
   ): BasicSubRenderInfo | Array<BasicSubRenderInfo> | void {
     // 更新NPM自定义组件排序和分类
     // const myDict: MyDictionary[] = [];
-    const disabledRenderers = JSON.parse(window.localStorage.getItem('store') || '')["disabledRenderers"];
-    
+    const disabledRenderers_str = JSON.parse(window.localStorage.getItem('store') || '')["disabledRenderers"].replace(/\s+/g, '');;
+    const disabledRenderers: string[] = disabledRenderers_str.split(",");
+    // console.log(disabledRenderers);
     for (let index = 0, size = renderers.length; index < size; index++) {
       // 判断是否需要隐藏 Editor预置组件
       const pluginRendererName = renderers[index].rendererName;
@@ -106,6 +107,7 @@ export class ManagerEditorPlugin extends BasePlugin {
         pluginRendererName &&
         disabledRenderers.indexOf(pluginRendererName) > -1
       ) {
+        // console.log(pluginRendererName);
         renderers[index].disabledRendererPlugin = true; // 更新状态
       }
     }

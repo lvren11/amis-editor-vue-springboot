@@ -24,12 +24,19 @@ function isActive(link: any, location: any) {
   return !!ret;
 }
 
+const ingnored_link : Array<string> = ["/background","/backgroundactive","/backgroundtable","/backgroundcode"];
+
 export default inject('store')(
   observer(function ({
     store,
     location,
     history
   }: {store: IMainStore} & RouteComponentProps) {
+
+    function handleRredict(){
+      history.push(`/background`);
+    }
+
     function renderHeader() {
       return (
         <>
@@ -44,6 +51,14 @@ export default inject('store')(
             <Button
                 size="sm"
                 className="m-r-xs"
+                level="default"
+                onClick={handleRredict}
+              >
+                跳转后端
+              </Button>
+            <Button
+                size="sm"
+                className="m-r-xs"
                 level="danger"
                 onClick={() => store.setAddPluginIsOpen(true)}
               >
@@ -55,7 +70,7 @@ export default inject('store')(
               level="success" 
               onClick={() => store.setGenerateIsClick(true)}
               >
-                生成代码
+                页面代码导出
               </Button>
               <Button
                 size="sm"
@@ -143,8 +158,11 @@ export default inject('store')(
             if(link.active){
               store.UpdateNowLink(link.path);
             }
-
+           
             link.active ||
+
+            ingnored_link.indexOf(link.path) > -1 ?
+            "":
               children.push(
                 <i
                   key="delete"
@@ -159,7 +177,10 @@ export default inject('store')(
                   }}
                 />
               );
-            
+
+            ingnored_link.indexOf(link.path) > -1 ? 
+            link.active 
+            :
             children.push(
               <i
                 key="edit"
@@ -178,7 +199,9 @@ export default inject('store')(
                 {link.label}
               </span>
             );
-
+            // console.log(link.path)
+            // console.log(link.path[0])
+            // console.log(children)
             return link.path ? (
               link.active ? (
                 <a>{children}</a>

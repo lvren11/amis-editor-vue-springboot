@@ -7,7 +7,7 @@ export default schema2component(
     {
         type: 'dialog',
         title: '屏蔽组件',
-        size: 'full',
+        size: 'lg',
         body: {
             type: 'form',
             controls: [
